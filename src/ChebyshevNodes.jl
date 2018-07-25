@@ -21,6 +21,9 @@ Tᴱzeros(k,n) = cospi((2(k-n-1)+1)/2n)/cospi(inv(2n))  # extended to -1..1
 Tᴬzeros(k,n) = k==1 ? -1 : (k==n ? 1 : Tzeros(k-1,n-2)) # augmented with -1,+1
 
 Uzeros(k,n) = cospi((n-k+1)/(n+1))
+Uᴱzeros(k,n) = cospi((n-k+1)/(n+1))/cospi(1/(n+1))
+Uᴬzeros(k,n) = k==1 ? -1 : (k==n ? 1 : Uzeros(k-1,n-2)) # augmented with -1,+1
+
 TGLextrema(k,n) = -cospi((k-1)/(n-1)) # Gauss-Lobatto Chebyshev nodes
 
 
