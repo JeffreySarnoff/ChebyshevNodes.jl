@@ -139,7 +139,7 @@ shift_chebTextremum(::Type{T}, n, k) where {T} = (chebTextremum(T, n, k) + 1)/2
 
 chebTextrema(n) = chebTextrema(Float64, n)
 function chebTextrema(::Type{T}, n) where {T}
-    result = Vector{T}(undef, n+2)
+    result = Vector{T}(undef, n)
     for k = 1:n
         result[k] = shift_chebTextremum(T,n,k)
     end
@@ -167,7 +167,7 @@ shift_chebUextremum(::Type{T}, n, k) where {T} = (chebUextremum(T, n, k) + 1)/2
 
 chebUextrema(n) = chebUextrema(Float64, n)
 function chebUextrema(::Type{T}, n) where {T}
-    result = Vector{T}(undef, n+2)
+    result = Vector{T}(undef, n)
     for k = 1:n
         result[k] = shift_chebUextremum(T,n,k)
     end
@@ -206,7 +206,7 @@ shift_chebVextremum(::Type{T}, n, k) where {T} = (chebVextremum(T, n, k) + 1)/2
 
 chebVextrema(n) = chebVextrema(Float64, n)
 function chebVextrema(::Type{T}, n) where {T}
-    result = Vector{T}(undef, n+2)
+    result = Vector{T}(undef, n)
     for k = 1:n
         result[k] = shift_chebVextremum(T,n,k)
     end
@@ -245,7 +245,7 @@ shift_chebWextremum(::Type{T}, n, k) where {T} = (chebWextremum(T, n, k) + 1)/2
 
 chebWextrema(n) = chebWextrema(Float64, n)
 function chebWextrema(::Type{T}, n) where {T}
-    result = Vector{T}(undef, n+2)
+    result = Vector{T}(undef, n)
     for k = 1:n
         result[k] = shift_chebWextremum(T,n,k)
     end
