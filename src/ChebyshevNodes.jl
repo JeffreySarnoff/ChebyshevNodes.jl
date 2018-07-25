@@ -14,6 +14,11 @@ export chebt_zeros, chebu_zeros, chebv_zeros, chebw_zeros,
 @inline fromab(a,b,x) =  (2*x - (a+b))/(b - a)
 # mapping from [-1, 1] to [a, b]
 @inline intoab(a,b,y) = (y * (b - a) + (a + b))/2
+# mapping from [0, 1] to [-1, 1]
+@inline from01(x) = 2*x - 1
+# mapping from [-1, 1] to [0, 1]
+@inline into01(y) = (y + 1)/2
+
 
 # k=1..n
 
@@ -23,9 +28,9 @@ Tᴱ0(k,n) = cospi((2(k-n-1)+1)/2n)/cospi(inv(2n))    # extended to -1..1
 Tᴬ0(k,n) = k==1 ? -1 : (k==n ? 1 : T0(k-1,n-2)) # augmented with -1,+1
 
 # shifted 0..1
-𝑇0(k,n) = #cospi((2(n-k+1)-1)/2n)
-𝑇ᴱ0(k,n) = #cospi((2(k-n-1)+1)/2n)/cospi(inv(2n))    # extended to -1..1
-𝑇ᴬ0(k,n) = k==1 ? -1 : (k==n ? 1 : 𝑇0(k-1,n-2)) # augmented with -1,+1
+𝑇0(k,n)  = into01(T0(k,n))
+𝑇ᴱ0(k,n) = into01(Tᴱ0(k,n))   # extended to -1..1
+𝑇ᴬ0(k,n) = into01(Tᴬ0(k,n)) # augmented with -1,+1
 
 # -1..1
 U0(k,n) = cospi((n-k+1)/(n+1))
