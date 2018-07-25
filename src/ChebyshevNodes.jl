@@ -9,7 +9,10 @@ export chebt_zeros, chebu_zeros, chebv_zeros, chebw_zeros,
        chebtt_extrema01, chebuu_extrema01, chebvv_extrema01, chebww_extrema01
 
 
-
+# mapping from [a, b] to [-1, 1]
+@inline fromab(a,b,x) =  (2*x - (a+b))/(b - a)
+# mapping from [-1, 1] to [a, b]
+@inline intoab(a,b,y) = (y * (b - a) + (a + b))/2
 
 #   roots of Chebyshev polynomials (T,U,V,W)
 #   within [-1,1] and shifted within [0,+1]
