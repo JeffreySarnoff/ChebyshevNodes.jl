@@ -101,7 +101,7 @@ Roots
 
 
 chebWzero(n, k) = chebWzero(Float64, n, k)
-chebWzero(::Type{T}, n, k) = cospi(T(n-k+1) / T(n+1/2))
+chebWzero(::Type{T}, n, k) where {T} = cospi(T(n-k+1) / T(n+1/2))
 
 shift_chebWzero(n, k) = shift_chebWzero(Float64, n, k)
 shift_chebWzero(::Type{T}, n, k) where {T} = (chebWzero(T,n,k) + 1) / 2
@@ -246,7 +246,7 @@ end
 # extrema of sqrt(1-x) * W(x)
 
 chebWextrema(n, k) = chebWextrema(Float64, n, k) 
-chebWextrema(::Type{T}, n, k) = cospi(T(2*(n-k)+1) / T(2*n+1))
+chebWextrema(::Type{T}, n, k) where {T} = cospi(T(2*(n-k)+1) / T(2*n+1))
 
 shift_chebWextrema(n, k) = shift_chebWextrema(Float64, n, k) 
 shift_chebWextrema(::Type{T}, n, k) where {T} = (chebWextrema(T, n, k) + 1)/2
