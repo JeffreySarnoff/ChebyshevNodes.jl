@@ -44,10 +44,10 @@ end
 # roots of U(x)
 
 chebUzero(n, k) = chebUzero(Float64, n, k)
-chebUzero(::Type{T}, n, k) = cospi(T(n-k+1) / T(n+1))
+chebUzero(::Type{T}, n, k) where {T} = cospi(T(n-k+1) / T(n+1))
 
 shift_chebUzero(n, k) = shift_chebUzero(Float64, n, k)
-shift_chebUzero(::Type{T}, n, k) = (chebUzero(T,n,k) + 1) / 2
+shift_chebUzero(::Type{T}, n, k) where {T} = (chebUzero(T,n,k) + 1) / 2
 
 chebUzeros(n, k) = chebUzeros(Float64, n, k)
 function chebUzeros(::Type{T}, n) where {T}
@@ -72,10 +72,10 @@ end
 # zeros of V(x)
 
 chebVzero(n, k) = chebVzero(Float64, n, k)
-chebVzero(::Type{T}, n, k) = cospi(T(n-k+1/2) / T(n+1/2))
+chebVzero(::Type{T}, n, k) where {T} = cospi(T(n-k+1/2) / T(n+1/2))
 
 shift_chebVzero(n, k) = shift_chebVzero(Float64, n, k)
-shift_chebVzero(::Type{T}, n, k) = (chebVzero(T,n,k) + 1) / 2
+shift_chebVzero(::Type{T}, n, k) where {T} = (chebVzero(T,n,k) + 1) / 2
 
 chebVzeros(n, k) = chebVzeros01(Float64, n, k)
 function chebVzeros(::Type{T}, n) where {T}
@@ -100,10 +100,11 @@ Roots
 # zeros of W(x)
 
 
+chebWzero(n, k) = chebWzero(Float64, n, k)
 chebWzero(::Type{T}, n, k) = cospi(T(n-k+1) / T(n+1/2))
 
 shift_chebWzero(n, k) = shift_chebWzero(Float64, n, k)
-shift_chebWzero(::Type{T}, n, k) = (chebWzero(T,n,k) + 1) / 2
+shift_chebWzero(::Type{T}, n, k) where {T} = (chebWzero(T,n,k) + 1) / 2
 
 chebWzeros(n, k) = chebWzeros(Float64, n, k)
 function chebWzeros(::Type{T}, n) where {T}
