@@ -13,7 +13,7 @@ export chebTzeros, chebUzeros, chebVzeros, chebWzeros,
 #   roots of Chebyshev polynomials (T,U,V,W)
 #   within [-1,1] and shifted within [0,+1]
 
-# roots of T(x)
+# zeros of T(x)
 
 chebTzero(n, k) = chebTzero(Float64, n, k)
 chebTzero(::Type{T}, n, k) where {T} = cospi(T(n-k + 1/2) / n)
@@ -41,7 +41,7 @@ function chebTzeros01(::Type{T}, n) where {T}
     return result
 end
 
-# roots of U(x)
+# zeros of U(x)
 
 chebUzero(n, k) = chebUzero(Float64, n, k)
 chebUzero(::Type{T}, n, k) where {T} = cospi(T(n-k+1) / T(n+1))
@@ -96,9 +96,8 @@ function chebVzeros01(::Type{T}, n) where {T}
     end
     return result
 end
-Roots
-# zeros of W(x)
 
+# zeros of W(x)
 
 chebWzero(n, k) = chebWzero(Float64, n, k)
 chebWzero(::Type{T}, n, k) where {T} = cospi(T(n-k+1) / T(n+1/2))
