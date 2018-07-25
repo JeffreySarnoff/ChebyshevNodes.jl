@@ -16,13 +16,27 @@ export chebt_zeros, chebu_zeros, chebv_zeros, chebw_zeros,
 @inline intoab(a,b,y) = (y * (b - a) + (a + b))/2
 
 # k=1..n
-Tzeros(k,n) = cospi((2(n-k+1)-1)/2n)
-Tᴱzeros(k,n) = cospi((2(k-n-1)+1)/2n)/cospi(inv(2n))  # extended to -1..1
-Tᴬzeros(k,n) = k==1 ? -1 : (k==n ? 1 : Tzeros(k-1,n-2)) # augmented with -1,+1
 
-Uzeros(k,n) = cospi((n-k+1)/(n+1))
-Uᴱzeros(k,n) = cospi((n-k+1)/(n+1))/cospi(1/(n+1))
-Uᴬzeros(k,n) = k==1 ? -1 : (k==n ? 1 : Uzeros(k-1,n-2)) # augmented with -1,+1
+# -1..1
+T0(k,n) = cospi((2(n-k+1)-1)/2n)
+Tᴱ0(k,n) = cospi((2(k-n-1)+1)/2n)/cospi(inv(2n))    # extended to -1..1
+Tᴬ0(k,n) = k==1 ? -1 : (k==n ? 1 : T0(k-1,n-2)) # augmented with -1,+1
+
+# shifted 0..1
+𝑇0(k,n) = #cospi((2(n-k+1)-1)/2n)
+𝑇ᴱ0(k,n) = #cospi((2(k-n-1)+1)/2n)/cospi(inv(2n))    # extended to -1..1
+𝑇ᴬ0(k,n) = k==1 ? -1 : (k==n ? 1 : 𝑇0(k-1,n-2)) # augmented with -1,+1
+
+# -1..1
+U0(k,n) = cospi((n-k+1)/(n+1))
+Uᴱ0(k,n) = cospi((n-k+1)/(n+1))/cospi(1/(n+1))      # extended to -1..1
+Uᴬ0(k,n) = k==1 ? -1 : (k==n ? 1 : U0(k-1,n-2)) # augmented with -1,+1
+
+# shifted 0..1
+𝑈0(k,n) = #cospi((n-k+1)/(n+1))
+𝑈ᴱ0(k,n) = #cospi((n-k+1)/(n+1))/cospi(1/(n+1))      # extended to -1..1
+𝑈ᴬ0(k,n) = k==1 ? -1 : (k==n ? 1 : 𝑈0(k-1,n-2)) # augmented with -1,+1
+
 
 TGLextrema(k,n) = -cospi((k-1)/(n-1)) # Gauss-Lobatto Chebyshev nodes
 
