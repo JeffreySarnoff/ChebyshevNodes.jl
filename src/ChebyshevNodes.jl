@@ -32,6 +32,24 @@ Tᴬ0(k,n) = k==1 ? -1 : (k==n ? 1 : T0(k-1,n-2))   # augmented with -1,+1
 𝑇ᴱ0(k,n) = into01(Tᴱ0(k,n))   # extended to -1..1
 𝑇ᴬ0(k,n) = into01(Tᴬ0(k,n))   # augmented with -1,+1
 
+ function chebT(n,x)
+     if -1 <= x <= 1
+         Θ = acos(x)
+         Θ *= n
+         cos(Θ)
+     elseif 1 < x <= realmax(x)
+         Θ = acosh(x)
+         Θ *= n
+         cosh(Θ)
+     elseif -realmax(x) <= x < -1
+         Θ = acosh(-x)
+         Θ *= n
+         iseven(n) ? cosh(Θ) : -cosh(Θ)
+     else
+         throw(DomainError("$x is outside of the domain"))
+     end
+end
+
 # -1..1
 U0(k,n)  = cospi((n-k+1)/(n+1))
 Uᴱ0(k,n) = cospi((n-k+1)/(n+1))/cospi(1/(n+1))    # extended to -1..1
