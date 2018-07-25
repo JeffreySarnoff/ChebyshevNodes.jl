@@ -1,11 +1,12 @@
 module ChebyshevNodes
 
-export chebTzeros, chebUzeros, chebVzeros, chebWzeros,
-       chebTzeros01, chebUzeros01, chebVzeros01, chebWzeros01,
-       chebTextrema, chebUextrema, chebVextrema, chebWextrema,
-       chebTextrema01, chebUextrema01, chebVextrema01, chebWextrema01
-       chebUUextrema, chebVVextrema, chebWWextrema,
-       chebUUextrema01, chebVVextrema01, chebWWextrema01
+export chebt_zeros, chebu_zeros, chebv_zeros, chebw_zeros,
+       chebt_zeros01, chebu_zeros01, chebv_zeros01, chebw_zeros01,
+       chebtt_zeros01, chebuu_zeros01, chebvv_zeros01, chebww_zeros01,
+       chebt_extrema, chebu_extrema, chebv_extrema, chebw_extrema,
+       chebt_extrema01, chebu_extrema01, chebv_extrema01, chebw_extrema01
+       chebtt_extrema, chebuu_extrema, chebvv_extrema, chebww_extrema,
+       chebtt_extrema01, chebuu_extrema01, chebvv_extrema01, chebww_extrema01
 
 
 
@@ -15,113 +16,158 @@ export chebTzeros, chebUzeros, chebVzeros, chebWzeros,
 
 # zeros of T(x)
 
-chebTzero(n, k) = chebTzero(Float64, n, k)
-chebTzero(::Type{T}, n, k) where {T} = cospi(T(n-k + 1/2) / n)
+chebt_zero(n, k) = chebt_zero(Float64, n, k)
+chebt_zero(::Type{T}, n, k) where {T} = cospi(T(n-k + 1/2) / n)
 
-shift_chebTzero(n, k) = shift_chebTzero(Float64, n, k)
-shift_chebTzero(::Type{T}, n, k) where {T} = (chebTzero(n,k) + 1) / 2
+chebtstar_zero(n, k) = chebtstar_zero(Float64, n, k)
+chebtstar_zero(::Type{T}, n, k) where {T} = (chebt_zero(n,k) + 1) / 2
 
-chebTzeros(n) = chebTzeros(Float64, n)
-function chebTzeros(::Type{T}, n) where {T}
+chebt_zeros(n) = chebt_zeros(Float64, n)
+function chebt_zeros(::Type{T}, n) where {T}
     result = Vector{T}(undef, n)
     for k = 1:n
-        result[k] = chebTzero(T,n,k)
+        result[k] = chebt_zero(T,n,k)
     end
     return result
 end
 
-chebTzeros01(n) = chebTzeros01(Float64, n)
-function chebTzeros01(::Type{T}, n) where {T}
+chebt_zeros01(n) = chebt_zeros01(Float64, n)
+function chebt_zeros01(::Type{T}, n) where {T}
     result = Vector{T}(undef, n+2)
     result[1]   = zero(T)
     result[end] = one(T)
     for k = 1:n
-        result[k+1] = shift_chebTzero(T,n,k)
+        result[k+1] = chebtstar_zero(T,n,k)
     end
+    return result
+end
+
+chebtt_zeros01(n) = chebtt_zeros01(Float64, n)
+function chebtt_zeros01(::Type{T}, n) where {T}
+    result = Vector{T}(undef, 2*n+2)
+    result[1]   = zero(T)
+    result[end] = one(T)
+    result[2:n+1] = chebt_zeros(T, n)
+    result[n+2:(2*n+1)] = one(T) .- result[2:n+1]
+    unique!(sort!(result))
     return result
 end
 
 # zeros of U(x)
 
-chebUzero(n, k) = chebUzero(Float64, n, k)
-chebUzero(::Type{T}, n, k) where {T} = cospi(T(n-k+1) / T(n+1))
+chebu_zero(n, k) = chebu_zero(Float64, n, k)
+chebu_zero(::Type{T}, n, k) where {T} = cospi(T(n-k+1) / T(n+1))
 
-shift_chebUzero(n, k) = shift_chebUzero(Float64, n, k)
-shift_chebUzero(::Type{T}, n, k) where {T} = (chebUzero(T,n,k) + 1) / 2
+chebustar_zero(n, k) = chebustar_zero(Float64, n, k)
+chebustar_zero(::Type{T}, n, k) where {T} = (chebu_zero(T,n,k) + 1) / 2
 
-chebUzeros(n) = chebUzeros(Float64, n)
-function chebUzeros(::Type{T}, n) where {T}
+chebu_zeros(n) = chebu_zeros(Float64, n)
+function chebu_zeros(::Type{T}, n) where {T}
     result = Vector{T}(undef, n)
     for k = 1:n
-        result[k] = shift_chebUzero(T,n,k)
+        result[k] = chebustar_zero(T,n,k)
     end
     return result
 end
 
-chebUzeros01(n) = chebUzeros01(Float64, n)
-function chebUzeros01(::Type{T}, n) where {T}
+chebu_zeros01(n) = chebu_zeros01(Float64, n)
+function chebu_zeros01(::Type{T}, n) where {T}
     result = Vector{T}(undef, n+2)
     result[1]   = zero(T)
     result[end] = one(T)
     for k = 1:n
-        result[k+1] = shift_chebUzero(T,n,k)
+        result[k+1] = chebustar_zero(T,n,k)
     end
     return result
 end
+
+chebuu_zeros01(n) = chebuu_zeros01(Float64, n)
+function chebuu_zeros01(::Type{T}, n) where {T}
+    result = Vector{T}(undef, 2*n+2)
+    result[1]   = zero(T)
+    result[end] = one(T)
+    result[2:n+1] = chebu_zeros(T, n)
+    result[n+2:(2*n+1)] = one(T) .- result[2:n+1]
+    unique!(sort!(result))
+    return result
+end
+
 
 # zeros of V(x)
 
-chebVzero(n, k) = chebVzero(Float64, n, k)
-chebVzero(::Type{T}, n, k) where {T} = cospi(T(n-k+1/2) / T(n+1/2))
+chebv_zero(n, k) = chebv_zero(Float64, n, k)
+chebv_zero(::Type{T}, n, k) where {T} = cospi(T(n-k+1/2) / T(n+1/2))
 
-shift_chebVzero(n, k) = shift_chebVzero(Float64, n, k)
-shift_chebVzero(::Type{T}, n, k) where {T} = (chebVzero(T,n,k) + 1) / 2
+chebvstar_zero(n, k) = chebvstar_zero(Float64, n, k)
+chebvstar_zero(::Type{T}, n, k) where {T} = (chebv_zero(T,n,k) + 1) / 2
 
-chebVzeros(n) = chebVzeros01(Float64, n)
-function chebVzeros(::Type{T}, n) where {T}
+chebv_zeros(n) = chebv_zeros01(Float64, n)
+function chebv_zeros(::Type{T}, n) where {T}
     result = Vector{T}(undef, n)
     for k = 1:n
-        result[k] = shift_chebVzero(T,n,k)
+        result[k] = chebvstar_zero(T,n,k)
     end
     return result
 end
 
-chebVzeros01(n) = chebVzeros01(Float64, n)
-function chebVzeros01(::Type{T}, n) where {T}
+chebv_zeros01(n) = chebv_zeros01(Float64, n)
+function chebv_zeros01(::Type{T}, n) where {T}
     result = Vector{T}(undef, n+2)
     result[1]   = zero(T)
     result[end] = one(T)
     for k = 1:n
-        result[k+1] = shift_chebVzero(T,n,k)
+        result[k+1] = chebvstar_zero(T,n,k)
     end
+    return result
+end
+
+chebvv_zeros01(n) = chebvv_zeros01(Float64, n)
+function chebv_zeros01(::Type{T}, n) where {T}
+    result = Vector{T}(undef, 2*n+2)
+    result[1]   = zero(T)
+    result[end] = one(T)
+    result[2:n+1] = chebv_zeros(T, n)
+    result[n+2:(2*n+1)] = one(T) .- result[2:n+1]
+    unique!(sort!(result))
     return result
 end
 
 # zeros of W(x)
 
-chebWzero(n, k) = chebWzero(Float64, n, k)
-chebWzero(::Type{T}, n, k) where {T} = cospi(T(n-k+1) / T(n+1/2))
+chebw_zero(n, k) = chebw_zero(Float64, n, k)
+chebw_zero(::Type{T}, n, k) where {T} = cospi(T(n-k+1) / T(n+1/2))
 
-shift_chebWzero(n, k) = shift_chebWzero(Float64, n, k)
-shift_chebWzero(::Type{T}, n, k) where {T} = (chebWzero(T,n,k) + 1) / 2
+chebwstar_zero(n, k) = chebwstar_zero(Float64, n, k)
+chebwstar_zero(::Type{T}, n, k) where {T} = (chebw_zero(T,n,k) + 1) / 2
 
-chebWzeros(n) = chebWzeros(Float64, n)
-function chebWzeros(::Type{T}, n) where {T}
+chebw_zeros(n) = chebw_zeros(Float64, n)
+function chebw_zeros(::Type{T}, n) where {T}
     result = Vector{T}(undef, n+2)
     for k = 1:n
-        result[k] = shift_chebWzero(T,n,k)
+        result[k] = chebwstar_zero(T,n,k)
     end
     return result
 end
 
-chebWzeros01(n) = chebWzeros01(Float64, n)
-function chebWzeros01(::Type{T}, n) where {T}
+chebw_zeros01(n) = chebw_zeros01(Float64, n)
+function chebw_zeros01(::Type{T}, n) where {T}
     result = Vector{T}(undef, n+2)
     result[1]   = zero(T)
     result[end] = one(T)
     for k = 1:n
-        result[k+1] = shift_chebWzero(T,n,k)
+        result[k+1] = chebwstar_zero(T,n,k)
     end
+    return result
+end
+
+chebww_zeros01(n) = chebww_zeros01(Float64, n)
+function chebww_zeros01(::Type{T}, n) where {T}
+    result = Vector{T}(undef, 2*n+2)
+    result[1]   = zero(T)
+    result[end] = one(T)
+    result[2:n+1] = chebw_zeros(T, n)
+    result[n+2:(2*n+1)] = one(T) .- result[2:n+1]
+    unique!(sort!(result))
     return result
 end
 
@@ -131,66 +177,77 @@ end
 
 # extrema of T(x)
 
-chebTextremum(n, k) = chebTextremum(Float64, n, k)
-chebTextremum(::Type{T}, n, k) where {T} = cospi(T(n-k) / n)
+chebt_extremum(n, k) = chebt_extremum(Float64, n, k)
+chebt_extremum(::Type{T}, n, k) where {T} = cospi(T(n-k) / n)
 
-shift_chebTextremum(n, k) = shift_chebTextrema(Float64, n, k) 
-shift_chebTextremum(::Type{T}, n, k) where {T} = (chebTextremum(T, n, k) + 1)/2
+chebtstar_extremum(n, k) = shift_chebt_extrema(Float64, n, k)
+chebtstar_extremum(::Type{T}, n, k) where {T} = (chebt_extremum(T, n, k) + 1)/2
 
-chebTextrema(n) = chebTextrema(Float64, n)
-function chebTextrema(::Type{T}, n) where {T}
+chebt_extrema(n) = chebt_extrema(Float64, n)
+function chebt_extrema(::Type{T}, n) where {T}
     result = Vector{T}(undef, n)
     for k = 1:n
-        result[k] = shift_chebTextremum(T,n,k)
+        result[k] = chebtstar_extremum(T,n,k)
     end
     return result
 end
 
-chebTextrema01(n) = chebTextrema01(Float64, n)
-function chebTextrema01(::Type{T}, n) where {T}
+chebt_extrema01(n) = chebt_extrema01(Float64, n)
+function chebt_extrema01(::Type{T}, n) where {T}
     result = Vector{T}(undef, n+2)
     result[1]   = zero(T)
     result[end] = one(T)
     for k = 1:n
-        result[k+1] = shift_chebTextremum(T,n,k)
+        result[k+1] = chebtstar_extremum(T,n,k)
     end
+    return result
+end
+
+chebtt_extrema01(n) = chebtt_extrema01(Float64, n)
+function chebtt_extrema01(::Type{T}, n) where {T}
+    result = Vector{T}(undef, 2*n+2)
+    result[1]   = zero(T)
+    result[end] = one(T)
+    result[2:n+1] = chebt_extrema(T, n)
+    result[n+2:(2*n+1)] = one(T) .- result[2:n+1]
+    unique!(sort!(result))
     return result
 end
 
 # extrema of sqrt(1-x^2) * U(x)
 
-chebUextremum(n, k) = chebUextremum(Float64, n, k) 
-chebUextremum(::Type{T}, n, k) where {T} = cospi(T(2*(n-k)+1) / T(2*(n+1)))
+chebu_extremum(n, k) = chebu_extremum(Float64, n, k)
+chebu_extremum(::Type{T}, n, k) where {T} = cospi(T(2*(n-k)+1) / T(2*(n+1)))
 
-shift_chebUextremum(n, k) = shift_chebUextremum(Float64, n, k) 
-shift_chebUextremum(::Type{T}, n, k) where {T} = (chebUextremum(T, n, k) + 1)/2
+chebustar_extremum(n, k) = chebustar_extremum(Float64, n, k)
+chebustar_extremum(::Type{T}, n, k) where {T} = (chebu_extremum(T, n, k) + 1)/2
 
-chebUextrema(n) = chebUextrema(Float64, n)
-function chebUextrema(::Type{T}, n) where {T}
+chebu_extrema(n) = chebu_extrema(Float64, n)
+function chebu_extrema(::Type{T}, n) where {T}
     result = Vector{T}(undef, n)
     for k = 1:n
-        result[k] = shift_chebUextremum(T,n,k)
+        result[k] = chebustar_extremum(T,n,k)
     end
     return result
 end
 
-chebUextrema01(n) = chebUextrema01(Float64, n)
-function chebUextrema01(::Type{T}, n) where {T}
+chebu_extrema01(n) = chebu_extrema01(Float64, n)
+function chebu_extrema01(::Type{T}, n) where {T}
     result = Vector{T}(undef, n+2)
     result[1]   = zero(T)
     result[end] = one(T)
     for k = 1:n
-        result[k+1] = shift_chebUextremum(T,n,k)
+        result[k+1] = chebustar_extremum(T,n,k)
     end
     return result
 end
 
-chebUUextrema01(n, k) = chebUUextrema01(Float64, n, k)
-function chebUUextrema01(::Type{T}, n) where {T}
+chebuu_extrema01(n) = chebuu_extrema01(Float64, n)
+function chebuu_extrema01(::Type{T}, n) where {T}
     result = Vector{T}(undef, 2*n+2)
     result[1]   = zero(T)
     result[end] = one(T)
-    result[2:n+1] = chebUextrema(T, n)
+    result[2:n+1] = chebu_extrema(T, n)
     result[n+2:(2*n+1)] = one(T) .- result[2:n+1]
     unique!(sort!(result))
     return result
@@ -198,38 +255,38 @@ end
 
 # extrema of sqrt(1+x) * V(x)
 
-chebVextremum(n, k) = chebVextrema(Float64, n, k) 
-chebVextremum(::Type{T}, n, k) where {T} = cospi(T(2*(n-k)) / T(2*n+1))
+chebv_extremum(n, k) = chebv_extrema(Float64, n, k)
+chebv_extremum(::Type{T}, n, k) where {T} = cospi(T(2*(n-k)) / T(2*n+1))
 
-shift_chebVextremum(n, k) = shift_chebVextremum(Float64, n, k) 
-shift_chebVextremum(::Type{T}, n, k) where {T} = (chebVextremum(T, n, k) + 1)/2
+chebvstar_extremum(n, k) = chebvstar_extremum(Float64, n, k)
+chebvstar_extremum(::Type{T}, n, k) where {T} = (chebv_extremum(T, n, k) + 1)/2
 
-chebVextrema(n) = chebVextrema(Float64, n)
-function chebVextrema(::Type{T}, n) where {T}
+chebv_extrema(n) = chebv_extrema(Float64, n)
+function chebv_extrema(::Type{T}, n) where {T}
     result = Vector{T}(undef, n)
     for k = 1:n
-        result[k] = shift_chebVextremum(T,n,k)
+        result[k] = chebvstar_extremum(T,n,k)
     end
     return result
 end
 
-chebVextrema01(n) = chebVextrema01(Float64, n)
-function chebVextrema01(::Type{T}, n) where {T}
+chebv_extrema01(n) = chebv_extrema01(Float64, n)
+function chebv_extrema01(::Type{T}, n) where {T}
     result = Vector{T}(undef, n+2)
     result[1]   = zero(T)
     result[end] = one(T)
     for k = 1:n
-        result[k+1] = shift_chebVextremum(T,n,k)
+        result[k+1] = chebvstar_extremum(T,n,k)
     end
     return result
 end
 
-chebVVextrema01(n) = chebVVextrema01(Float64, n)
-function chebVVextrema01(::Type{T}, n) where {T}
+chebvv_extrema01(n) = chebvv_extrema01(Float64, n)
+function chebvv_extrema01(::Type{T}, n) where {T}
     result = Vector{T}(undef, 2*n+2)
     result[1]   = zero(T)
     result[end] = one(T)
-    result[2:n+1] = chebVextrema(T, n)
+    result[2:n+1] = chebv_extrema(T, n)
     result[n+2:(2*n+1)] = one(T) .- result[2:n+1]
     unique!(sort!(result))
     return result
@@ -237,43 +294,41 @@ end
 
 # extrema of sqrt(1-x) * W(x)
 
-chebWextremum(n, k) = chebWextrema(Float64, n, k) 
-chebWextremum(::Type{T}, n, k) where {T} = cospi(T(2*(n-k)+1) / T(2*n+1))
+chebw_extremum(n, k) = chebw_extrema(Float64, n, k)
+chebw_extremum(::Type{T}, n, k) where {T} = cospi(T(2*(n-k)+1) / T(2*n+1))
 
-shift_chebWextremum(n, k) = shift_chebWextremum(Float64, n, k) 
-shift_chebWextremum(::Type{T}, n, k) where {T} = (chebWextremum(T, n, k) + 1)/2
+chebwstar_extremum(n, k) = chebwstar_extremum(Float64, n, k)
+chebwstar_extremum(::Type{T}, n, k) where {T} = (chebw_extremum(T, n, k) + 1)/2
 
-chebWextrema(n) = chebWextrema(Float64, n)
-function chebWextrema(::Type{T}, n) where {T}
+chebw_extrema(n) = chebw_extrema(Float64, n)
+function chebw_extrema(::Type{T}, n) where {T}
     result = Vector{T}(undef, n)
     for k = 1:n
-        result[k] = shift_chebWextremum(T,n,k)
+        result[k] = chebwstar_extremum(T,n,k)
     end
     return result
 end
 
-chebWextrema01(n) = chebWextrema01(Float64, n)
-function chebWextrema01(::Type{T}, n) where {T}
+chebw_extrema01(n) = chebw_extrema01(Float64, n)
+function chebw_extrema01(::Type{T}, n) where {T}
     result = Vector{T}(undef, n+2)
     result[1]   = zero(T)
     result[end] = one(T)
     for k = 1:n
-        result[k+1] = shift_chebWextremum(T,n,k)
+        result[k+1] = chebwstar_extremum(T,n,k)
     end
     return result
 end
 
-chebWWextrema01(n) = chebWWextrema01(Float64, n)
-function chebWWextrema01(::Type{T}, n) where {T}
+chebww_extrema01(n) = chebww_extrema01(Float64, n)
+function chebww_extrema01(::Type{T}, n) where {T}
     result = Vector{T}(undef, 2*n+2)
     result[1]   = zero(T)
     result[end] = one(T)
-    result[2:n+1] = chebWextrema(T, n)
+    result[2:n+1] = chebw_extrema(T, n)
     result[n+2:(2*n+1)] = one(T) .- result[2:n+1]
     unique!(sort!(result))
     return result
 end
-
-
 
 end # ChebyshevNodes
