@@ -15,6 +15,15 @@ export chebt_zeros, chebu_zeros, chebv_zeros, chebw_zeros,
 # mapping from [-1, 1] to [a, b]
 @inline intoab(a,b,y) = (y * (b - a) + (a + b))/2
 
+# k=1..n
+Tzeros(k,n) = cospi((2(n-k+1)-1)/2n)
+Tᴱzeros(k,n) = cospi((2(k-n-1)+1)/2n)/cospi(inv(2n))  # extended to -1..1
+Tᴬzeros(k,n) = k==1 ? -1 : (k==n ? 1 : Tzeros(k-1,n-2)) # augmented with -1,+1
+
+Uzeros(k,n) = cospi((n-k+1)/(n+1))
+TGLextrema(k,n) = -cospi((k-1)/(n-1)) # Gauss-Lobatto Chebyshev nodes
+
+
 #   roots of Chebyshev polynomials (T,U,V,W)
 #   within [-1,1] and shifted within [0,+1]
 
@@ -229,7 +238,7 @@ chebustar_extremum(::Type{T}, n, k) where {T} = (chebu_extremum(T, n, k) + 1)/2
 chebu_extrema(n) = chebu_extrema(Float64, n)
 function chebu_extrema(::Type{T}, n) where {T}
     result = Vector{T}(undef, n)
-    for k = 1:n
+    for k = 0:n
         result[k] = chebu_extremum(T,n,k)
     end
     return result
