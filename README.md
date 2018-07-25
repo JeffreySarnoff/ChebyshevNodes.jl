@@ -12,7 +12,7 @@
     - these are in 0..+1
     - these have 0 prepended and 1 postpended
 
-#### roots and 1-roots of shifted Chebyshev polynomials T*, U*, V*, W* 
+#### roots and 1.0-roots of shifted Chebyshev polynomials T*, U*, V*, W* 
 - chebtt_zeros01, chebuu_zeros01, chebvv_zeros01, chebww_zeros01
     - these are in 0..+1
     - these have 0 prepended and 1 postpended
@@ -27,7 +27,8 @@
     - these are in 0..+1
     - these have 0 prepended and 1 postpended
 
-#### extrema and 1-extrema of shifted weighted Chebyshev polynomials T*, U*, V*, W* 
+#### extrema and 1.0-extrema of shifted weighted Chebyshev polynomials T*, uU*, vV*, wW* 
 - chebtt_extrema01, chebuu_extrema01, chebvv_extrema01, chebww_extrema01
     - these are in 0..+1
     - these have 0 prepended and 1 postpended
+    - uU\* = (sqrt(1-x^2)U)\*, vV\* = (sqrt(1+x)V)\*, wW* = (sqrt(1-x)W)\*
