@@ -6,7 +6,8 @@ export chebt_zeros, chebu_zeros, chebv_zeros, chebw_zeros,
        chebt_extrema, chebu_extrema, chebv_extrema, chebw_extrema,
        chebt_extrema01, chebu_extrema01, chebv_extrema01, chebw_extrema01
        chebtt_extrema, chebuu_extrema, chebvv_extrema, chebww_extrema,
-       chebtt_extrema01, chebuu_extrema01, chebvv_extrema01, chebww_extrema01
+       chebtt_extrema01, chebuu_extrema01, chebvv_extrema01, chebww_extrema01,
+       fromab, intoab
 
 
 # mapping from [a, b] to [-1, 1]
@@ -190,7 +191,7 @@ chebt_extrema(n) = chebt_extrema(Float64, n)
 function chebt_extrema(::Type{T}, n) where {T}
     result = Vector{T}(undef, n)
     for k = 1:n
-        result[k] = chebtstar_extremum(T,n,k)
+        result[k] = chebt_extremum(T,n,k)
     end
     return result
 end
@@ -229,7 +230,7 @@ chebu_extrema(n) = chebu_extrema(Float64, n)
 function chebu_extrema(::Type{T}, n) where {T}
     result = Vector{T}(undef, n)
     for k = 1:n
-        result[k] = chebustar_extremum(T,n,k)
+        result[k] = chebu_extremum(T,n,k)
     end
     return result
 end
@@ -268,7 +269,7 @@ chebv_extrema(n) = chebv_extrema(Float64, n)
 function chebv_extrema(::Type{T}, n) where {T}
     result = Vector{T}(undef, n)
     for k = 1:n
-        result[k] = chebvstar_extremum(T,n,k)
+        result[k] = chebv_extremum(T,n,k)
     end
     return result
 end
@@ -307,7 +308,7 @@ chebw_extrema(n) = chebw_extrema(Float64, n)
 function chebw_extrema(::Type{T}, n) where {T}
     result = Vector{T}(undef, n)
     for k = 1:n
-        result[k] = chebwstar_extremum(T,n,k)
+        result[k] = chebw_extremum(T,n,k)
     end
     return result
 end
